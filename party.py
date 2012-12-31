@@ -57,8 +57,8 @@ class Tanya(pygame.sprite.Sprite):
     def drink(self, targets):
         return self.rect.collidelist([t.rect for t in targets])
 
-    def check(self, foes):
-        return self.rect.collidelist([f.rect for f in foes]) >= 0
+    def check(self, partiers):
+        return self.rect.collidelist([p.rect for p in partiers]) >= 0
 
 class Partier(pygame.sprite.Sprite):
     def __init__(self, img_name, friendliness):
@@ -66,7 +66,6 @@ class Partier(pygame.sprite.Sprite):
         friendliness_img = friendliness + '.png'
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image(img_name, friendliness_img)
-        screen = pygame.display.get_surface()
         self.rect.topleft = (random.randrange(width-self.rect.width),
                              random.randrange(height-self.rect.height))
         self.rightspeed = ((-1)**random.randrange(2))*random.randrange(1,3)
@@ -80,13 +79,11 @@ class Partier(pygame.sprite.Sprite):
             self._wander()
 
     def _wander(self):
-        newpos = self.rect.move(self.rightspeed, self.downspeed)
         if self.rect.left < 0 or self.rect.right > width:
             self.rightspeed = -self.rightspeed
-            newpos = self.rect.move(self.rightspeed, self.downspeed)
         if self.rect.top < 0 or self.rect.bottom > height:
             self.downspeed = -self.downspeed
-            newpos = self.rect.move(self.rightspeed, self.downspeed)
+        newpos = self.rect.move(self.rightspeed, self.downspeed)
         self.rect = newpos
 
     def _still(self):
@@ -115,7 +112,7 @@ class Score(pygame.sprite.Sprite):
         self.font = pygame.font.Font(None, 24)
         self.image = self.font.render(str(self.score), 1, (10, 10, 10))
         self.rect = self.image.get_rect()
-        self.rect.topleft = width - 30, height - 30
+        self.rect.topleft = width - 35, height - 30
 
     def update(self):
         self.image = self.font.render(str(self.score), 1, (10, 10, 10))
@@ -131,7 +128,7 @@ def main():
 #initialize everything
     pygame.init()
     screen = pygame.display.set_mode(size)
-    pygame.display.set_caption('Party')
+    pygame.display.set_caption('Party hard!')
     pygame.mouse.set_visible(0)
 
 #create the background
@@ -196,7 +193,7 @@ def main():
             elif event.type == KEYDOWN and event.key == K_ESCAPE:
                 return
             elif event.type == MOUSEBUTTONDOWN:
-                d = tanya.drink(drinks) #the drink tanya clicked on
+                d = tanya.drink(drinks) #the index of the drink tanya clicked on (or -1)
                 if d >= 0:
                     drinks[d].drunk = 1
                     score.add(100)
