@@ -1,0 +1,9 @@
+double click on "party-game installer"
+choose "run in terminal"
+type in your password, which will enable the installer to:
+ --install pygame, a python module
+ --make a "party-game.desktop" file, which runs the python 
+   script "party.py" when you double click it
+ --NOT mess with your computer in any other way ;)
+then click on the resulting "party-game.desktop file with 
+the icon of the main character, and play the game!
