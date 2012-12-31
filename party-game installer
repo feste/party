@@ -1,5 +1,7 @@
 sudo apt-get install -y python-pygame
 
+touch party-game.desktop
+
 STRING='[Desktop Entry]\nEncoding=UTF-8\nVersion=1.0\nType=Application\nTerminal=true\nExec=python '$PWD'/party.py\nIcon='$PWD'/data/party-tanya.png\nName=party-game'
 
 echo $STRING >> party-game.desktop
